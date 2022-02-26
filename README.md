@@ -4,5 +4,5 @@ In process...
 
 ## subheader
 
-Follow the tutorial
-The result should show that the file is beimng modified.
+The description is yet to come.
+Overall, this repository will include all the progress made till date in line with the AI implementation in RESP-Series 
