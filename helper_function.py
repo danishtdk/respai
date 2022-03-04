@@ -285,3 +285,40 @@ def calculate_results(y_true, y_pred):
                   "recall": model_recall,
                   "f1": model_f1}
   return model_results
+
+# Fucntion to split the image dataset into train and test directories
+import os
+import numpy as np
+import shutil
+
+def split_train_test(rootdir, classes, test_ratio=0.2):
+  '''Split the image dataset into train and test directories
+
+  Args:
+   rootdir(str): directory path having image dataset
+   classes(list): list of image classes
+   test_ratio(float between 0 and 1): split ratio (defalut=0.2)
+  
+  Returns: 
+   train (directory): containing (1-test_ratio) fraction of the full image dataset
+   test (directory): containing 8test_ratio) fraction of the full image dataset
+  '''
+  for cls in classes:
+    os.makedirs(rootdir+'/train/'+cls)
+    os.makedirs(rootdir +'/test/' + cls)
+    source = rootdir + '/' + cls
+
+    allFileNames = os.listdir(source)
+    np.random.shuffle(allFileNames)
+    test_ratio = 0.1
+    train_FileNames, test_FileNames = np.split(np.array(allFileNames),
+                                                        [int(len(allFileNames)* (1 - test_ratio))])
+    
+    train_FileNames = [source+'/'+ name for name in train_FileNames.tolist()]
+    test_FileNames = [source+'/' + name for name in test_FileNames.tolist()]
+
+    for name in train_FileNames:
+      shutil.copy(name, rootdir +'/train/' + cls)
+
+    for name in test_FileNames:
+      shutil.copy(name, rootdir +'/test/' + cls)
